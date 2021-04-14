@@ -45,10 +45,13 @@ class Game:
 
         """
 
-    def store_results
+    def store_results()
         """
         Stores the results with a nickname that will stored with it inside 
         a dictionary that will be sorted by score.
 
         Side Effects: 
             Modifies leaderboard
+        """
+
+    if __name__ == "__main__":
