@@ -16,6 +16,8 @@ class Game:
         scores(dict): Contains the top scores in the game.
     """
 
+def __init__():
+    leaderboard = {}
     
     def get_sentence(words, path):
         """
@@ -58,6 +60,8 @@ class Game:
         Side Effects: 
             Modifies leaderboard
         """
+
+        leaderboard.add()
 
     def get_top_scores():
         """
