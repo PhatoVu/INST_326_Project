@@ -16,9 +16,19 @@ class Game:
         scores(dict): Contains the top scores in the game.
     """
 
+<<<<<<< HEAD
 def __init__():
     leaderboard = {}
     
+=======
+    def __init__(self, words, path, time_used, nickname, wpm):
+        self.words = words
+        self.path = path
+        self.time_used = time_used
+        self.nickname = nickname
+        self.wpm = wpm
+        
+>>>>>>> refs/remotes/origin/main
     def get_sentence(words, path):
         """
         Obtains random words of a csv file and creates a sentence.
@@ -60,15 +70,36 @@ def __init__():
         Side Effects: 
             Modifies leaderboard
         """
-
-        leaderboard.add()
-
+        if score >= 0 and score <= 60:
+            return "Newb"
+        if score >= 61 and score <= 80:
+            return "Basic"
+        if score >= 81 and score <= 99:
+            return "Speedy"
+        if score >= 100 and score <= 120:
+            return "Flashster"
+        if score >= 121 and score <= 140:
+            return "Master Typer"
+        if score >= 141 and score <= 160:
+            return "Demi-God Typer"
+        if score >= 161 and score <= 180:
+            return "Ascended Typer"
+        if score >= 181:
+            return "Grandmaster Typer"
+        
     def get_top_scores():
         """
         Gets the top scores that are stored into the text file and prints them
         out in sorted order.
         """
- 
+        tierlist = []
+        with open(txt, 'r') as t:
+            for line in t:
+                for word in line.split("\n"):
+                    tierlist.append(word)
+        sortedlist = tierlist.sorted(word, key = len)
+        return sortedlist
+    
 def main(filename):
     """
     Runs the game by prompting the user to start the game.
