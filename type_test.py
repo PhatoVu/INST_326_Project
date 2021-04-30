@@ -2,8 +2,10 @@
 This module holds the game where you can measure your typing speed when 
 given a random sentence. 
 """
-import timer
+from argparse import ArgumentParser
+import time
 import random
+import sys
 
 class Game:
     """ 
@@ -16,11 +18,6 @@ class Game:
         scores(dict): Contains the top scores in the game.
     """
 
-<<<<<<< HEAD
-def __init__():
-    leaderboard = {}
-    
-=======
     def __init__(self, words, path, time_used, nickname, wpm):
         self.words = words
         self.path = path
@@ -28,7 +25,7 @@ def __init__():
         self.nickname = nickname
         self.wpm = wpm
         
->>>>>>> refs/remotes/origin/main
+    
     def get_sentence(words, path):
         """
         Obtains random words of a csv file and creates a sentence.
@@ -40,13 +37,25 @@ def __init__():
         Side Effects:
             Modifies the values inside sentence
         """
+        wordlist = []
+        newList=[]
+        count = 0
+        
 
         with open(path, 'r') as f:
             for line in f:
-                for word in line.split("\n"):
-                    wordlist.append(word)
-        sentence = random.choice(wordlist)
+                wordlist += line.split()
+
+        while(count < words):
+            rand_index = random.randint(0, len(wordlist)-1)
+            rand_word = str(wordlist[rand_index])
+            newList.append(rand_word)
+            count = count + 1
+        print(newList)
+
+        sentence = ' '.join(newList)
         return sentence
+        
 
 
     def get_results(time_used, words):
@@ -58,7 +67,7 @@ def __init__():
             words(int): See above
 
         """
-        score = words / time_used
+        score = int(words) / time_used
 
         return score
 
@@ -104,10 +113,10 @@ def main(filename):
     """
     Runs the game by prompting the user to start the game.
     """
-    new_game = Game()
+    new_game = Game(None, filename, 0.0, None, 0.0)
     print("The speed type test has booted up")
-    menu_choice = input("Please select one of the following: \n \
-        1) Start a New Game \n 2) Show Top Scores \n 3) Exit")
+    menu_choice = input("Please select one of the following:\n"\
+        "1) Start a New Game \n2) Show Top Scores\n3) Exit\n")
     menu_choice = int(menu_choice)
 
     if menu_choice == 3:
@@ -116,20 +125,26 @@ def main(filename):
         new_game.get_top_scores()
     elif menu_choice == 1:
         words = input("How many words would you like to type?\n")
-        sentence = new_game.get_sentence(filename, int(words))
+        sentence = Game.get_sentence(int(words), filename)
         input("Press Enter to start")
         start_time = time.time()
+        print(sentence)
         user_sentence = input()
-        while sentence != user_sentence:
-            user_sentence = input("User sentence was wrong. \
-                Please type it again.")
+        while str(sentence) != str(user_sentence):
+            user_sentence = input("User sentence was wrong. "\
+                "Please type it again.\n")
         end_time = time.time()
         total_time = (end_time - start_time)/60
-        new_game.get_results(total_time,words)
+        print("Your wpm is " + str(Game.get_results(total_time,words)))
 
 
+
+def parse_args(arglist):
+    parser = ArgumentParser()
+    parser.add_argument("filename", help = "Name/ path to text file for words")
+    return parser.parse_args(arglist)
 
 
 if __name__ == "__main__":
         args = parse_args(sys.argv[1:])
-        main(args.filename, args.word, args.time_used, args.sentence)
+        main(args.filename)
