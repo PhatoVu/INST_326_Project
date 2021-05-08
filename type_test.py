@@ -10,32 +10,15 @@ import sys
 class Game:
     """ 
     Contains functions that are required to run the game/type test.
-    
-    Attributes:
-        sentence(a string of words): that will be formed using a csv file at
-        random
-
-        scores(dict): Contains the top scores in the game.
     """
-
-    def __init__(self, words, path, time_used, nickname, wpm):
-        self.words = words
-        self.path = path
-        self.time_used = time_used
-        self.nickname = nickname
-        self.wpm = wpm
         
-    
-    def get_sentence(words, path):
+    def get_sentence(self, words, path):
         """
         Obtains random words of a csv file and creates a sentence.
 
         Args:
             words(int): User inputted number
             path(.csv): contains a bunch of words that can be read
-
-        Side Effects:
-            Modifies the values inside sentence
         """
         wordlist = []
         newList=[]
@@ -58,7 +41,7 @@ class Game:
         
 
 
-    def get_results(time_used, words):
+    def get_results(self, time_used, words):
         """
         Calculates and prints out the results of the game just played
 
@@ -71,13 +54,27 @@ class Game:
 
         return score
 
-    def store_results(nickname, wpm):
+    def store_results(self, nickname, score):
         """
-        Stores the results with a nickname that will stored with it inside 
-        a dictionary that will be sorted by score and print into a text file.
+        Stores the results with a nickname that will stored inside a text file.
+        
+        Args:
+            nickname(str): A name that associates with the score.
+            score(float): The score that the player has achieved.
+        """
 
-        Side Effects: 
-            Modifies leaderboard
+        f = open("TopScores.txt", "a+")
+        print(str(nickname) + ", " + str(score), file = f)
+        f.close()
+
+
+    def get_rank(self, score):
+        """
+        Takes the users score and returns them their rank based on their score.
+
+        Args:
+            score(float): see above.
+
         """
         if score >= 0 and score <= 60:
             return "Newb"
@@ -96,24 +93,28 @@ class Game:
         if score >= 181:
             return "Grandmaster Typer"
         
-    def get_top_scores():
+
+    def get_top_scores(self):
         """
-        Gets the top scores that are stored into the text file and prints them
+        Gets the top scores that are stored into from text file and prints them
         out in sorted order.
         """
-        tierlist = []
-        with open(txt, 'r') as t:
-            for line in t:
-                for word in line.split("\n"):
-                    tierlist.append(word)
-        sortedlist = tierlist.sorted(word, key = len)
+        topscores = []
+        finallist = []
+        with open("TopScores.txt", 'r') as f:
+            for line in f:
+                temp = line.split(",")
+                topscores.append((temp[0], temp[1].strip()))
+        
+        sortedlist = sorted(topscores, key = lambda x: x[1], reverse=True)
         return sortedlist
+    
     
 def main(filename):
     """
     Runs the game by prompting the user to start the game.
     """
-    new_game = Game(None, filename, 0.0, None, 0.0)
+    new_game = Game()
     print("The speed type test has booted up")
     menu_choice = input("Please select one of the following:\n"\
         "1) Start a New Game \n2) Show Top Scores\n3) Exit\n")
@@ -122,20 +123,34 @@ def main(filename):
     if menu_choice == 3:
         exit()
     elif menu_choice == 2:
-        new_game.get_top_scores()
+        print(*new_game.get_top_scores(), sep='\n')
     elif menu_choice == 1:
         words = input("How many words would you like to type?\n")
-        sentence = Game.get_sentence(int(words), filename)
+        sentence = new_game.get_sentence(int(words), filename)
         input("Press Enter to start")
         start_time = time.time()
-        print(sentence)
         user_sentence = input()
         while str(sentence) != str(user_sentence):
             user_sentence = input("User sentence was wrong. "\
                 "Please type it again.\n")
         end_time = time.time()
         total_time = (end_time - start_time)/60
-        print("Your wpm is " + str(Game.get_results(total_time,words)))
+        score = new_game.get_results(total_time,words)
+        print("Your wpm is " + str(score))
+        answer = input("Would you like to store your results? (Y/N)\n").upper()
+        if(answer == "N"):
+            input("Would you like to see your rank? (Y/N)\n")
+            if(answer == "N"):
+                exit()
+            elif(answer == "Y"):
+                print(new_game.get_rank(score))
+                exit()
+        elif(answer == "Y"): 
+            nickname = input("Please enter a nickname: ")
+            new_game.store_results(nickname, score)
+            print("Results stored.")
+            exit()
+
 
 
 
