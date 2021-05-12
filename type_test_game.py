@@ -34,7 +34,6 @@ class Game:
             rand_word = str(wordlist[rand_index])
             newList.append(rand_word)
             count = count + 1
-        print(newList)
 
         sentence = ' '.join(newList)
         return sentence
@@ -51,12 +50,11 @@ class Game:
             words(int): See above
 
         """
-        print(time_used)
         score = int(words) / time_used
 
         return score
 
-    def store_results(self, nickname, score, filename):
+    def store_results(self, nickname, score):
         """
         Stores the results with a nickname that will stored inside a text file.
         
@@ -116,7 +114,7 @@ def main(filename):
     Runs the game by prompting the user to start the game.
     """
     new_game = Game()
-    print("The speed type test has booted up")
+    print("The speed type test has booted up.\n")
     menu_choice = input("Please select one of the following:\n"\
         "1) Start a New Game \n2) Show Top Scores\n3) Exit\n")
     menu_choice = int(menu_choice)
@@ -129,6 +127,7 @@ def main(filename):
         words = input("How many words would you like to type?\n")
         sentence = new_game.get_sentence(int(words), filename)
         input("Press Enter to start")
+        print(sentence)
         start_time = time.time()
         user_sentence = input()
         while str(sentence) != str(user_sentence):
