@@ -46,15 +46,17 @@ class Game:
         Calculates and prints out the results of the game just played
 
         Args:
-            time_used(int): A number of how long the user took to finish
+            time_used(int): Time converted into minutes of how long the user 
+            took to finish
             words(int): See above
 
         """
+        print(time_used)
         score = int(words) / time_used
 
         return score
 
-    def store_results(self, nickname, score):
+    def store_results(self, nickname, score, filename):
         """
         Stores the results with a nickname that will stored inside a text file.
         
@@ -100,14 +102,13 @@ class Game:
         out in sorted order.
         """
         topscores = []
-        finallist = []
         with open("TopScores.txt", 'r') as f:
             for line in f:
                 temp = line.split(",")
                 topscores.append((temp[0], temp[1].strip()))
         
         sortedlist = sorted(topscores, key = lambda x: x[1], reverse=True)
-        return sortedlist
+        return sortedlist[0:10]
     
     
 def main(filename):
@@ -163,3 +164,4 @@ def parse_args(arglist):
 if __name__ == "__main__":
         args = parse_args(sys.argv[1:])
         main(args.filename)
+    
