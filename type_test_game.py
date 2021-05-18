@@ -15,7 +15,6 @@ class Game:
     def get_sentence(self, words, path):
         """
         Obtains random words of a csv file and creates a sentence.
-
         Args:
             words(int): User inputted number
             path(.csv): contains a bunch of words that can be read
@@ -43,12 +42,10 @@ class Game:
     def get_results(self, time_used, words):
         """
         Calculates and prints out the results of the game just played
-
         Args:
             time_used(int): Time converted into minutes of how long the user 
             took to finish
             words(int): See above
-
         """
         score = int(words) / time_used
 
@@ -71,26 +68,24 @@ class Game:
     def get_rank(self, score):
         """
         Takes the users score and returns them their rank based on their score.
-
         Args:
             score(float): see above.
-
         """
         if score >= 0 and score <= 60:
             return "Newb"
-        if score >= 61 and score <= 80:
+        if score > 60 and score <= 80:
             return "Basic"
-        if score >= 81 and score <= 99:
+        if score > 80 and score <= 99:
             return "Speedy"
-        if score >= 100 and score <= 120:
+        if score > 99 and score <= 120:
             return "Flashster"
-        if score >= 121 and score <= 140:
+        if score > 120 and score <= 140:
             return "Master Typer"
-        if score >= 141 and score <= 160:
+        if score > 140 and score <= 160:
             return "Demi-God Typer"
-        if score >= 161 and score <= 180:
+        if score > 160 and score <= 180:
             return "Ascended Typer"
-        if score >= 181:
+        if score > 180:
             return "Grandmaster Typer"
         
 
