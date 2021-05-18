@@ -134,10 +134,10 @@ def main(filename):
         print("Your wpm is " + str(score))
         answer = input("Would you like to store your results? (Y/N)\n").upper()
         if(answer == "N"):
-            input("Would you like to see your rank? (Y/N)\n")
-            if(answer == "N"):
+            answer2 = input("Would you like to see your rank? (Y/N)\n").upper()
+            if(answer2 == "N"):
                 exit()
-            elif(answer == "Y"):
+            elif(answer2 == "Y"):
                 print(new_game.get_rank(score))
                 exit()
         elif(answer == "Y"): 

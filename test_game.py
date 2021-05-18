@@ -9,6 +9,7 @@ def test_get_results():
     assert(new_game.get_results(.4, 20)) == pytest.approx(50)
     assert(new_game.get_results(.425, 100)) == pytest.approx(235.2940)
     assert(new_game.get_results(39, 999)) == pytest.approx(25.6154)
+
 def test_get_rank():
     assert(new_game.get_rank(0)) == "Newb"
     assert(new_game.get_rank(60)) == "Newb"
